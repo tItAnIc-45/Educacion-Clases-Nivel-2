@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="../css/paginas.css">
 <link rel="stylesheet" href="../css/animaciones.css">
 <link rel="stylesheet" href="../css/responsive.css">
+<link rel="stylesheet" href="../css/formularios.css">
 <script>try{var t=localStorage.getItem("tema")||(matchMedia("(prefers-color-scheme: light)").matches?"claro":"oscuro");document.documentElement.dataset.tema=t;if(sessionStorage.getItem("tp-trans"))document.documentElement.classList.add("llega")}catch(e){document.documentElement.dataset.tema="oscuro"}</script>
 </head>
 <body data-pagina="contacto" data-raiz="../">
@@ -33,16 +34,16 @@
         <div><span><small>Horario</small>Lunes a sábado, 9:00 a 19:00</span></div>
       </div>
     </div>
-    <form id="formulario" novalidate>
+    <form id="formulario" data-tipo="contacto" novalidate aria-busy="false">
       <label for="nombre">Nombre</label>
-      <input id="nombre" name="nombre" autocomplete="name" placeholder="Tu nombre completo">
-      <small class="error" data-e="nombre"></small>
+      <input id="nombre" name="nombre" autocomplete="name" placeholder="Tu nombre completo" required maxlength="100" aria-describedby="error-nombre">
+      <small class="error" id="error-nombre" aria-live="polite"></small>
       <label for="correo">Correo electrónico</label>
-      <input id="correo" name="correo" type="email" autocomplete="email" placeholder="tu@correo.com">
-      <small class="error" data-e="correo"></small>
+      <input id="correo" name="correo" type="email" autocomplete="email" placeholder="tu@correo.com" required maxlength="254" aria-describedby="error-correo">
+      <small class="error" id="error-correo" aria-live="polite"></small>
       <label for="programa">Programa de interés</label>
-      <select id="programa" name="programa"><option value="">Elige un programa</option></select>
-      <small class="error" data-e="programa"></small>
+      <select id="programa" name="programa" required aria-describedby="error-programa"><option value="">Elige un programa</option></select>
+      <small class="error" id="error-programa" aria-live="polite"></small>
       <button class="boton" type="submit">Quiero información</button>
     </form>
   </section>
@@ -63,6 +64,8 @@
 <script src="../js/colibri.js"></script>
 <script src="../js/layout.js"></script>
 <script src="../js/comun.js"></script>
+<script src="../js/formularios-config.js"></script>
+<script src="../js/formularios.js"></script>
 <script src="../js/contacto.js"></script>
 </body>
 </html>

@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Planificador | TUPLUSEDUCA</title>
-<meta name="description" content="Calcula tu fecha de término y tus cuotas.">
+<title>Planificador de estudio | TUPLUSEDUCA</title>
+<meta name="description" content="Organiza tus días y horas de estudio y calcula tu fecha de término.">
 <link rel="icon" href="../assets/colibri-mini.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,42 +14,81 @@
 <link rel="stylesheet" href="../css/paginas.css">
 <link rel="stylesheet" href="../css/animaciones.css">
 <link rel="stylesheet" href="../css/responsive.css">
+<link rel="stylesheet" href="../css/nuevo.css">
 <script>try{var t=localStorage.getItem("tema")||(matchMedia("(prefers-color-scheme: light)").matches?"claro":"oscuro");document.documentElement.dataset.tema=t;if(sessionStorage.getItem("tp-trans"))document.documentElement.classList.add("llega")}catch(e){document.documentElement.dataset.tema="oscuro"}</script>
 </head>
 <body data-pagina="planificador" data-raiz="../">
-<main>
-  <section class="cabecera">
-    <p class="migas"><a href="../index.html">Inicio</a> / Planificador de estudio</p>
-    <h1>Planificador de estudio</h1>
-    <p class="lead">Elige un programa y cuántas horas tienes por semana. Calculamos cuándo terminas y cuánto pagas por cuota.</p>
-  </section>
-  <section class="seccion">
-    <div class="plan">
-      <div class="panel">
-        <label for="pl-prog">Programa</label><select id="pl-prog"></select>
-        <label for="pl-horas">Horas por semana: <output id="pl-h" for="pl-horas">5 horas</output></label>
-        <input id="pl-horas" type="range" min="2" max="15" value="5">
-        <label for="pl-inicio">Fecha de inicio</label><input id="pl-inicio" type="date">
+<main class="plan-main">
+  <div class="plan-app">
+    <section class="pl-izq" aria-labelledby="pl-titulo">
+      <button type="button" class="demo-pill grande" aria-pressed="false"><i aria-hidden="true"></i><span>Modo Demostración</span></button>
+      <h1 id="pl-titulo">Planificador de Estudio</h1>
+      <p class="pl-sub">Organiza tu tiempo de preparación</p>
+
+      <div class="pl-campo">
+        <label for="pl-prog">Programa</label>
+        <select id="pl-prog"></select>
+      </div>
+
+      <fieldset class="pl-campo pl-dias">
+        <legend>Selector de días</legend>
+        <div id="pl-dias" class="dias-fila"></div>
+        <small class="pl-ayuda" id="pl-dias-ayuda"></small>
+      </fieldset>
+
+      <div class="pl-campo">
+        <label for="pl-horas">Horas de estudio diarias</label>
+        <div class="rango"><output id="pl-bub" for="pl-horas">3 horas</output><input id="pl-horas" type="range" min="1" max="8" step="0.5" value="2"></div>
+        <div class="rango-marcas" aria-hidden="true"><span>1 h</span><span>8 h</span></div>
+      </div>
+
+      <div class="pl-campo">
+        <label for="pl-inicio">Fecha de inicio</label>
+        <div class="fecha"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><input id="pl-inicio" type="date"></div>
+      </div>
+
+      <div class="pl-campo fila-dif">
+        <span id="dif-l">Dificultad de Test</span>
+        <div class="interruptores" role="group" aria-labelledby="dif-l">
+          <button type="button" class="sw" role="switch" aria-checked="true" data-dif="basico"><i></i><span>Básico</span></button>
+          <button type="button" class="sw" role="switch" aria-checked="false" data-dif="avanzado"><i></i><span>Avanzado</span></button>
+        </div>
+      </div>
+      <small class="pl-ayuda" id="pl-dif-ayuda"></small>
+
+      <div class="pl-campo">
         <label for="pl-cuotas">Forma de pago</label>
         <select id="pl-cuotas"><option value="1">1 pago</option><option value="3">3 cuotas</option><option value="6">6 cuotas</option></select>
       </div>
-      <div class="panel" aria-live="polite">
-        <div class="kpis">
-          <div class="kpi"><b id="pl-sem">0</b><span>semanas</span></div>
-          <div class="kpi"><b id="pl-tot">0 h</b><span>de estudio en total</span></div>
-          <div class="kpi"><b id="pl-fin" style="font-size:18px">–</b><span>fin estimado</span></div>
-          <div class="kpi"><b id="pl-cuota" style="font-size:20px">–</b><span>pago</span></div>
-        </div>
-        <ol class="semanas" id="pl-lista"></ol>
-        <div class="acc">
-          <button class="boton" id="pl-ics">Agregar al calendario</button>
-          <button class="boton sec" id="pl-txt">Descargar plan</button>
-          <button class="boton sec" id="pl-copiar">Copiar plan</button>
-          <a class="boton sec" id="pl-ins" href="contacto.html">Inscribirme</a>
-        </div>
+    </section>
+
+    <section class="pl-der" aria-labelledby="pl-res" aria-live="polite">
+      <h2 id="pl-res">Resumen del Plan de Estudio</h2>
+
+      <div class="fin-card">
+        <span class="fin-ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span>
+        <div><small>Fecha Estimada de Finalización</small><b id="pl-fin">–</b></div>
       </div>
-    </div>
-  </section>
+
+      <div class="pl-bloque">
+        <div class="pl-bloque-cab"><h3>Horario Semanal</h3><span class="tag-mini">Mini visual</span></div>
+        <div class="horario" id="pl-horario"></div>
+        <p class="horario-pie"><span id="pl-semanal">–</span><span id="pl-stats">–</span></p>
+      </div>
+
+      <div class="pl-bloque">
+        <div class="pl-bloque-cab"><h3>Temario y Módulos</h3><span class="avance"><span id="pl-avance">0%</span><i><b id="pl-avance-b"></b></i></span></div>
+        <ol class="tema" id="pl-mods"></ol>
+      </div>
+
+      <p class="pl-pago">Pago: <b id="pl-cuota">–</b></p>
+      <div class="pl-botones">
+        <button type="button" class="boton sec" id="pl-ics">Agregar al calendario (.ics)</button>
+        <a class="boton" id="pl-ins" href="contacto.html">Inscribirme al Curso</a>
+      </div>
+      <div class="pl-extra"><button type="button" class="enlace-btn" id="pl-copiar">Copiar plan</button><button type="button" class="enlace-btn" id="pl-txt">Descargar plan (.txt)</button></div>
+    </section>
+  </div>
 </main>
 
 <script src="../js/datos.js"></script>

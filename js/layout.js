@@ -12,6 +12,7 @@
   ${logo}
   <nav id="menu" aria-label="Principal">${enlaces}</nav>
   <div class="acciones">
+    <button type="button" class="demo-pill" aria-pressed="false" title="Carga datos de ejemplo en el test y el planificador"><i aria-hidden="true"></i><span>Modo Demostración</span></button>
     <div class="acentos" role="group" aria-label="Color de acento">
       <button class="punto" data-c="" style="--c:#d4af37" aria-label="Dorado" aria-pressed="true"></button>
       <button class="punto" data-c="#35b8a0" data-c2="#7fe0cc" style="--c:#35b8a0" aria-label="Turquesa" aria-pressed="false"></button>

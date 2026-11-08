@@ -1,0 +1,36 @@
+✓ El titulo Contacto original se conserva
+✓ El boton Contacto original se conserva
+✓ La columna informativa original se conserva
+✓ Contacto no es una página de matrícula
+✓ El formulario de contacto declara su tipo
+✓ Contacto no añade estado ni botón de reintento bajo el formulario
+✓ El aviso de estado es flotante y no ocupa espacio bajo el formulario
+✓ Error obligatorio: nombre
+✓ Error obligatorio: correo
+✓ Error obligatorio: programa
+✓ Enfoque al primer campo incorrecto
+✓ Correo inválido rechazado
+✓ No borra los datos al validar
+✓ Sin proveedor no hace solicitudes de red
+✓ Sin proveedor muestra aviso flotante de error, sin falso éxito
+✓ Se intentó POST de Contacto
+✓ HTTP 503 muestra error
+✓ HTTP 503 permite reintentar desde el aviso con foco accesible
+✓ HTTP 503 conserva los datos
+✓ Reintento vuelve a enviar
+✓ Solo con 2xx y JSON ok:true aparece el aviso flotante de éxito
+✓ Código de consulta presente
+✓ Reintento conserva el código
+✓ Contacto es solicitud de información
+✓ El servicio recibe el correo de respuesta
+✓ Matrícula requiere autorización de envío
+✓ POST matrícula
+✓ Matrícula distinguible de Contacto
+✓ Código matrícula visible y registrable
+✓ Código de matrícula mostrado al usuario
+✓ No promete cupos reservados
+✓ Red caída: aviso flotante de error anunciado de forma accesible
+✓ Red caída: opción reintentar
+✓ Red caída: conserva curso seleccionado
+
+TOTAL 34 pruebas correctas

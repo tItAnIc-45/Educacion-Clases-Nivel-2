@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="../css/paginas.css">
 <link rel="stylesheet" href="../css/animaciones.css">
 <link rel="stylesheet" href="../css/responsive.css">
+<link rel="stylesheet" href="../css/nuevo.css">
 <script>try{var t=localStorage.getItem("tema")||(matchMedia("(prefers-color-scheme: light)").matches?"claro":"oscuro");document.documentElement.dataset.tema=t;if(sessionStorage.getItem("tp-trans"))document.documentElement.classList.add("llega")}catch(e){document.documentElement.dataset.tema="oscuro"}</script>
 </head>
 <body data-pagina="programas" data-raiz="../">
@@ -21,41 +22,48 @@
   <section class="cabecera">
     <p class="migas"><a href="../index.html">Inicio</a> / Programas</p>
     <h1>Programas</h1>
-    <p class="lead">Elige un área, busca por nombre u ordena por precio y duración. Guarda tus favoritos con el corazón.</p>
+    <p class="lead">Busca por tema, docente o herramienta. Entra a cada programa para ver el temario, los docentes y lo que opinan los alumnos.</p>
   </section>
   <section class="seccion">
+    <div class="buscador" role="search">
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <input id="buscar" type="search" autocomplete="off" placeholder="Prueba con “Excel”, “logo”, “Lucía” o “redes sociales”" aria-label="Buscar programa, tema o docente" aria-controls="cursos">
+      <button type="button" id="limpiar" class="limpiar" aria-label="Borrar búsqueda" hidden>✕</button>
+      <kbd aria-hidden="true">/</kbd>
+    </div>
+    <div class="sugerencias" id="sugerencias" aria-label="Búsquedas populares"></div>
     <div class="filtros" role="group" aria-label="Filtrar por área">
-      <button class="filtro activo" data-f="todos">Todos</button>
-      <button class="filtro" data-f="Tecnología">Tecnología</button>
-      <button class="filtro" data-f="Creatividad">Creatividad</button>
-      <button class="filtro" data-f="Negocios">Negocios</button>
-      <button class="filtro" data-f="fav">♥ Favoritos (<span id="nfav">0</span>)</button>
+      <button class="filtro activo" data-f="todos">Todos <span class="cuenta-f" data-cf="todos"></span></button>
+      <button class="filtro" data-f="Tecnología">Tecnología <span class="cuenta-f" data-cf="Tecnología"></span></button>
+      <button class="filtro" data-f="Creatividad">Creatividad <span class="cuenta-f" data-cf="Creatividad"></span></button>
+      <button class="filtro" data-f="Negocios">Negocios <span class="cuenta-f" data-cf="Negocios"></span></button>
+      <button class="filtro" data-f="fav">♥ Favoritos <span class="cuenta-f" id="nfav">0</span></button>
     </div>
     <div class="herramientas">
-      <input id="buscar" type="search" class="buscar" placeholder="Buscar un programa… (atajo: /)" aria-label="Buscar programa">
-      <select id="orden" aria-label="Ordenar programas">
-        <option value="">Orden recomendado</option>
-        <option value="p-asc">Precio: menor a mayor</option>
-        <option value="p-desc">Precio: mayor a menor</option>
-        <option value="h-asc">Duración: más corta primero</option>
-      </select>
+      <label class="campo-mini">Nivel
+        <select id="nivel"><option value="">Todos</option><option value="Inicial">Inicial</option><option value="Intermedio">Intermedio</option></select></label>
+      <label class="campo-mini">Precio
+        <select id="precio"><option value="">Cualquiera</option><option value="200">Hasta S/ 200</option><option value="230">Hasta S/ 230</option></select></label>
+      <label class="campo-mini">Ordenar por
+        <select id="orden">
+          <option value="">Recomendado</option>
+          <option value="val">Mejor valorados</option>
+          <option value="al">Más estudiantes</option>
+          <option value="p-asc">Precio: menor a mayor</option>
+          <option value="p-desc">Precio: mayor a menor</option>
+          <option value="h-asc">Duración: más corta primero</option>
+        </select></label>
+      <button type="button" class="boton sec" id="reiniciar" hidden>Quitar filtros</button>
       <small id="total" aria-live="polite"></small>
     </div>
     <div class="cursos" id="cursos"></div>
-    <p class="vacio" id="vacio" hidden></p>
+    <div class="vacio-caja" id="vacio" hidden>
+      <h3>No encontramos programas con esa búsqueda</h3>
+      <p>Revisa la ortografía o prueba con una de estas ideas:</p>
+      <div class="sugerencias" id="sug-vacio"></div>
+    </div>
   </section>
 </main>
-<dialog id="modal" aria-labelledby="m-titulo">
-  <button class="cerrar icono" id="cerrar" aria-label="Cerrar">✕</button>
-  <div class="modal-cabecera"><img id="m-img" class="curso-img" alt=""></div>
-  <small id="m-cat"></small>
-  <h3 id="m-titulo"></h3>
-  <p id="m-desc"></p>
-  <ul id="m-lista"></ul>
-  <div class="datos"><span id="m-dur"></span><span id="m-niv"></span><strong id="m-precio"></strong></div>
-  <label class="cuotas">Pagar en <select id="m-cuotas" aria-label="Número de cuotas"><option value="1">1 pago</option><option value="3">3 cuotas</option><option value="6">6 cuotas</option></select><strong id="m-cuota"></strong></label>
-  <div class="m-bot"><button class="boton" id="inscribir">Inscribirme</button><button class="boton sec" id="planear">Planificar</button><button class="boton sec" id="compartir">Compartir</button></div>
-</dialog>
 
 <script src="../js/datos.js"></script>
 <script src="../js/utilidades.js"></script>

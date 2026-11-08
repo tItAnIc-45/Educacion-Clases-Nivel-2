@@ -7,10 +7,20 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Variables de entorno (solo se versiona la plantilla)
+.env
+.env.*
+!.env.example
+
 node_modules
 dist
 dist-ssr
 *.local
+tmp/
+
+# Sistema operativo y editor
+.DS_Store
+Thumbs.db
 
 # Editor directories and files
 .vscode/*

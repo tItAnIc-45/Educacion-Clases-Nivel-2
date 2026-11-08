@@ -70,7 +70,7 @@ $$("main > section:not(.hero)").forEach(s => { s.classList.add("reveal"); obs.ob
 const paleta = $("#paleta"), pq = $("#pq"), pl = $("#pl");
 const ITEMS = [
   ...TP.PAGINAS.map(p => ({ t: "Ir a " + p.t, s: "Página", u: ruta(p.u) })),
-  ...TP.CURSOS.map(c => ({ t: c.t, s: c.cat, u: ruta("pages/programas.html") + "?ver=" + c.id }))
+  ...TP.CURSOS.map(c => ({ t: c.t, s: c.cat, u: ruta("pages/curso.html") + "?id=" + c.id }))
 ];
 let lista = ITEMS, sel = 0;
 function pintarPaleta() {
@@ -112,3 +112,17 @@ $("#boletin").addEventListener("submit", e => {
 });
 
 $("#anio").textContent = new Date().getFullYear();
+
+/* Modo demostración: estado compartido entre pantallas */
+TP.demo = seguro(() => localStorage.getItem("demo")) === "1";
+TP.setDemo = v => {
+  TP.demo = !!v;
+  seguro(() => localStorage.setItem("demo", v ? "1" : "0"));
+  $$(".demo-pill").forEach(p => p.setAttribute("aria-pressed", TP.demo));
+  document.dispatchEvent(new CustomEvent("demo", { detail: TP.demo }));
+};
+document.addEventListener("click", e => {
+  const p = e.target.closest(".demo-pill");
+  if (p) { TP.setDemo(!TP.demo); aviso(TP.demo ? "Modo demostración activado: datos de ejemplo cargados" : "Modo demostración desactivado"); }
+});
+$$(".demo-pill").forEach(p => p.setAttribute("aria-pressed", TP.demo));
