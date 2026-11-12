@@ -5,7 +5,9 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  // El sitio estático usa scripts clásicos con globals propios (TP, $, esc…)
+  // y se valida con sus propias pruebas en tests/.
+  globalIgnores(['dist', 'js', 'tests']),
   {
     files: ['**/*.{js,jsx}'],
     extends: [

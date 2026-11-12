@@ -7,6 +7,7 @@ No requiere backend ni base de datos: todo se ejecuta en el navegador y el formu
 ## Contenido
 
 - [Stack y estructura](#stack-y-estructura)
+- [Vista React y componentes](#vista-react-y-componentes)
 - [Diagrama de flujo](#diagrama-de-flujo)
 - [Variables de entorno](#variables-de-entorno)
 - [Configuración](#configuración)
@@ -18,16 +19,18 @@ No requiere backend ni base de datos: todo se ejecuta en el navegador y el formu
 
 ## Stack y estructura
 
-- HTML5, CSS3 y JavaScript moderno (vanilla, sin framework en el sitio).
-- Datos de programas en `js/datos.js`; estado local con `localStorage` (tema, favoritos, respuestas del test).
+- Sitio publicado: HTML5, CSS3 y JavaScript moderno (vanilla, sin framework).
+- Vista React opcional de la home (`react.html` y `src/`) con Vite y los mismos estilos.
+- Datos de programas en `js/datos.js` y `src/data/site.js`; estado local con `localStorage` (tema, favoritos, respuestas del test).
 - Formulario con validación en cliente y envío `fetch` a Formspree.
 - Pruebas de comportamiento con Node.js (`assert` y `vm`), sin red ni credenciales.
-- El repositorio incluye Vite para servir el sitio en desarrollo; la web publicada es estática.
+- Vite sirve el sitio y la vista React en desarrollo; la web publicada sigue siendo estática.
 
 ```text
 TUPLUSEDUCA/
 ├── index.html
 ├── 404.html
+├── react.html               Vista React de la home con componentes
 ├── pages/
 │   ├── programas.html      Catálogo y filtros
 │   ├── curso.html          Ficha del programa
@@ -48,12 +51,51 @@ TUPLUSEDUCA/
 │   ├── formularios.js         Validación, envío y estados del formulario
 │   ├── contacto.js            Inicializa el formulario de consulta
 │   └── ...                    Lógica de cada pantalla
+├── src/
+│   ├── components/            Navbar, Hero, Footer, CourseCard, buscador…
+│   ├── data/site.js           Programas, páginas y testimonios en formato ES
+│   ├── hooks/                 useReveal y useToast
+│   ├── App.jsx                Composición de la home React
+│   └── main.jsx               Montaje de React y CSS compartido
 ├── tests/
 │   └── prueba_formularios_n2.cjs
 ├── docs/evidencias/           Capturas y salida de pruebas
 ├── .env.example
 └── .gitignore
 ```
+
+## Vista React y componentes
+
+La home también está disponible como aplicación React en [`react.html`](react.html). No reemplaza al sitio estático: `index.html` y `pages/` siguen publicándose tal cual desde la raíz para GitHub Pages. La vista React sirve como catálogo vivo de componentes y reutiliza los mismos estilos del sitio (`css/base.css`, `componentes.css`, `paginas.css`, `animaciones.css`, `nuevo.css` y `responsive.css`), por lo que el diseño es idéntico.
+
+### Componentes
+
+| Componente | Responsabilidad |
+| --- | --- |
+| `Navbar` | Logo, navegación, Modo Demostración, color de acento, buscador, tema claro/oscuro y menú móvil. |
+| `SearchPalette` | Buscador en diálogo con `Ctrl+K`, filtrado de páginas y programas, navegación con teclado. |
+| `Hero` | Titular, palabras que se escriben solas, colibrí interactivo y tarjetas flotantes. |
+| `Stats` | Contadores animados al entrar en pantalla. |
+| `CohortCountdown` | Cuenta regresiva a la próxima cohorte. |
+| `Advantages` | Ventajas de la institución. |
+| `CourseCard` y `ProgramsSection` | Tarjeta reutilizable de programa y sección de destacados. |
+| `Testimonials` | Carrusel con avance automático, flechas y puntos. |
+| `Cta` | Bloque de llamada a la acción reutilizable. |
+| `Footer` | Pie compartido con navegación y boletín validado. |
+| `FloatingActions` y `Toast` | WhatsApp, volver arriba y avisos flotantes. |
+
+Los datos de la vista React viven en `src/data/site.js`. Si cambias un programa, un precio o un testimonio, actualiza también `js/datos.js` para mantener ambas versiones sincronizadas.
+
+### Ejecución de la vista React
+
+```bash
+npm install
+npm run dev
+```
+
+Abre la URL que muestra Vite y añade `/react.html` (por ejemplo, `http://localhost:5173/react.html`). `npm run build` genera `dist/` con la vista React, las imágenes y las páginas internas copiadas, listo para desplegar; el sitio también se sigue abriendo directamente desde `index.html` sin compilación.
+
+`npm run lint` revisa la app React (`src/`). Los scripts clásicos de `js/` y las pruebas de `tests/` quedan fuera del lint porque usan globals propios (`TP`, `$`, `esc`, etc.) y se validan con sus pruebas de Node.
 
 ## Diagrama de flujo
 

@@ -21,7 +21,7 @@ h1{font-size:clamp(40px,5vw,66px);animation:entra .9s both}
 .contacto{padding:80px 9%;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:50px;background:linear-gradient(110deg,#122a40,#1a4560);color:#f5f2e9}
 .contacto p:not(.etiqueta){color:#b9c9d8;margin-top:16px}
 .contacto .etiqueta,.contacto h2 span{color:#e8bd43}
-footer{padding:28px 6%;background:var(--oscuro);display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
+/* El pie compartido (.pie + .abajo) se define en base.css */
 footer p,footer small{color:var(--sec);font-size:14px}
 .rota{font:500 20px 'Fraunces',serif;margin-top:18px;color:var(--sec)}
 .rota b{color:var(--dorado)}

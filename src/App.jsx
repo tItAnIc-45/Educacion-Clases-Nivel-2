@@ -1,122 +1,109 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useEffect, useState } from 'react'
+import Advantages from './components/Advantages'
+import CohortCountdown from './components/CohortCountdown'
+import Cta from './components/Cta'
+import FloatingActions from './components/FloatingActions'
+import Footer from './components/Footer'
+import Hero from './components/Hero'
+import Navbar from './components/Navbar'
+import ProgramsSection from './components/ProgramsSection'
+import SearchPalette from './components/SearchPalette'
+import Stats from './components/Stats'
+import Testimonials from './components/Testimonials'
+import Toast from './components/Toast'
+import { ruta } from './data/site'
+import useToast from './hooks/useToast'
 
-function App() {
-  const [count, setCount] = useState(0)
+const leerDemo = () => {
+  try {
+    return window.localStorage.getItem('demo') === '1'
+  } catch {
+    return false
+  }
+}
+
+export default function App() {
+  const { mensaje, avisar } = useToast()
+  const [busquedaAbierta, setBusquedaAbierta] = useState(false)
+  const [demo, setDemo] = useState(leerDemo)
+
+  useEffect(() => {
+    document.body.dataset.pagina = 'inicio'
+    document.body.dataset.raiz = ''
+    document.title = 'Aprende sin límites | TUPLUSEDUCA'
+  }, [])
+
+  useEffect(() => {
+    const atajos = evento => {
+      if ((evento.ctrlKey || evento.metaKey) && evento.key.toLowerCase() === 'k') {
+        evento.preventDefault()
+        setBusquedaAbierta(abierta => !abierta)
+      }
+    }
+    window.addEventListener('keydown', atajos)
+    return () => window.removeEventListener('keydown', atajos)
+  }, [])
+
+  const alternarDemo = () => {
+    const nuevo = !demo
+    setDemo(nuevo)
+    try {
+      window.localStorage.setItem('demo', nuevo ? '1' : '0')
+    } catch {
+      /* almacenamiento no disponible */
+    }
+    avisar(
+      nuevo
+        ? 'Modo Demostración activado'
+        : 'Modo Demostración desactivado',
+    )
+  }
 
   return (
     <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+      <Navbar
+        pagina="inicio"
+        demo={demo}
+        onDemo={alternarDemo}
+        onSearch={() => setBusquedaAbierta(true)}
+      />
 
-      <div className="ticks"></div>
+      <main>
+        <Hero avisar={avisar} />
+        <Stats />
+        <CohortCountdown />
+        <Advantages />
+        <ProgramsSection />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+        <section className="seccion">
+          <Cta
+            className="test-cta"
+            titulo="¿No sabes por dónde empezar?"
+            texto="Responde 3 preguntas y te recomendamos un programa."
+            href={ruta('pages/test.html')}
+            boton="Hacer el test"
+          />
+        </section>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
+        <Testimonials />
+
+        <section className="seccion">
+          <Cta
+            titulo="Todo gran cambio empieza con aprender."
+            texto="Déjanos tus datos y te enviamos la información del programa que elijas."
+            href={ruta('pages/contacto.html')}
+            boton="Quiero información"
+          />
+        </section>
+      </main>
+
+      <Footer avisar={avisar} />
+      <FloatingActions />
+      <SearchPalette
+        abierta={busquedaAbierta}
+        onCerrar={() => setBusquedaAbierta(false)}
+      />
+      <Toast mensaje={mensaje} />
     </>
   )
 }
-
-export default App
