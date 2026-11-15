@@ -1,11 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import '../css/base.css'
-import '../css/componentes.css'
-import '../css/paginas.css'
-import '../css/animaciones.css'
-import '../css/nuevo.css'
-import '../css/responsive.css'
+/* Los estilos compartidos viven en public/css y se cargan con <link> en react.html.
+   Importarlos desde src rompería el build al no existir ya en la raíz del proyecto. */
 import './index.css'
 import App from './App.jsx'
 

@@ -106,7 +106,7 @@
         </details>
       </div>
       <a class="boton rec-b1" href="${TP.url(top.id)}">Ver ficha del curso</a>
-      <a class="boton sec rec-b2" href="planificador.html?programa=${top.id}">Planificar mis horarios para este curso</a>`;
+      <a class="boton sec rec-b2" href="${ruta("pages/planificador.html")}?programa=${top.id}">Planificar mis horarios para este curso</a>`;
   }
 
   /* ---------- Panel izquierdo ---------- */

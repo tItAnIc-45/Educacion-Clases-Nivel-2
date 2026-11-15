@@ -4,8 +4,10 @@ const $ = (s, c = document) => c.querySelector(s);
 const $$ = (s, c = document) => [...c.querySelectorAll(s)];
 const seguro = fn => { try { return fn(); } catch { return null; } };
 const mov = matchMedia("(prefers-reduced-motion: reduce)").matches;
-const raiz = document.body.dataset.raiz || "";
-const ruta = u => raiz + u;
+/* En producción con Vite los recursos viven en public/ y se sirven desde la raíz.
+   Forzamos rutas absolutas para que funcionen desde cualquier nivel de carpeta. */
+const raiz = "/";
+const ruta = u => raiz + String(u).replace(/^\/+/, "");
 const params = new URLSearchParams(location.search);
 const esc = s => String(s).replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m]));
 const sin = s => String(s).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();

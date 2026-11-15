@@ -4,8 +4,8 @@ const fs=require('node:fs');
 const vm=require('node:vm');
 const path=require('node:path');
 const assert=require('node:assert/strict');
-const script=fs.readFileSync(path.join(__dirname,'../js/formularios.js'),'utf8');
-const htmlContacto=fs.readFileSync(path.join(__dirname,'../pages/contacto.html'),'utf8');
+const script=fs.readFileSync(path.join(__dirname,'../public/js/formularios.js'),'utf8');
+const htmlContacto=fs.readFileSync(path.join(__dirname,'../public/pages/contacto.html'),'utf8');
 let checks=0;
 function ok(cond,msg){assert.ok(cond,msg);console.log('✓',msg);checks++;}
 class El {

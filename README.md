@@ -21,42 +21,43 @@ No requiere backend ni base de datos: todo se ejecuta en el navegador y el formu
 
 - Sitio publicado: HTML5, CSS3 y JavaScript moderno (vanilla, sin framework).
 - Vista React opcional de la home (`react.html` y `src/`) con Vite y los mismos estilos.
-- Datos de programas en `js/datos.js` y `src/data/site.js`; estado local con `localStorage` (tema, favoritos, respuestas del test).
+- Datos de programas en `public/js/datos.js` y `src/data/site.js`; estado local con `localStorage` (tema, favoritos, respuestas del test).
 - Formulario con validación en cliente y envío `fetch` a Formspree.
 - Pruebas de comportamiento con Node.js (`assert` y `vm`), sin red ni credenciales.
 - Vite sirve el sitio y la vista React en desarrollo; la web publicada sigue siendo estática.
 
 ```text
 TUPLUSEDUCA/
-├── index.html
+├── index.html               Entrada del sitio estático
 ├── 404.html
 ├── react.html               Vista React de la home con componentes
-├── pages/
-│   ├── programas.html      Catálogo y filtros
-│   ├── curso.html          Ficha del programa
-│   ├── test.html           Test de afinidad
-│   ├── planificador.html   Cálculo de horas y fechas
-│   ├── nosotros.html       Información institucional
-│   └── contacto.html       Formulario de consulta
-├── css/
-│   ├── formularios.css     Avisos de envío y estados del formulario
-│   └── ...                 Estilos base y por pantalla
-├── assets/
-├── js/
-│   ├── datos.js               Programas, fichas y datos académicos
-│   ├── utilidades.js          Helpers, avisos y descargas
-│   ├── layout.js              Cabecera, pie y elementos flotantes
-│   ├── comun.js               Tema, menú, buscador y boletín
-│   ├── formularios-config.js  Endpoints públicos de Formspree
-│   ├── formularios.js         Validación, envío y estados del formulario
-│   ├── contacto.js            Inicializa el formulario de consulta
-│   └── ...                    Lógica de cada pantalla
+├── public/                  Recursos servidos desde la raíz por Vite
+│   ├── pages/
+│   │   ├── programas.html      Catálogo y filtros
+│   │   ├── curso.html          Ficha del programa
+│   │   ├── test.html           Test de afinidad
+│   │   ├── planificador.html   Cálculo de horas y fechas
+│   │   ├── nosotros.html       Información institucional
+│   │   └── contacto.html       Formulario de consulta
+│   ├── css/
+│   │   ├── formularios.css     Avisos de envío y estados del formulario
+│   │   └── ...                 Estilos base y por pantalla
+│   ├── assets/
+│   └── js/
+│       ├── datos.js               Programas, fichas y datos académicos
+│       ├── utilidades.js          Helpers, avisos y descargas
+│       ├── layout.js              Cabecera, pie y elementos flotantes
+│       ├── comun.js               Tema, menú, buscador y boletín
+│       ├── formularios-config.js  Endpoints públicos de Formspree
+│       ├── formularios.js         Validación, envío y estados del formulario
+│       ├── contacto.js            Inicializa el formulario de consulta
+│       └── ...                    Lógica de cada pantalla
 ├── src/
 │   ├── components/            Navbar, Hero, Footer, CourseCard, buscador…
 │   ├── data/site.js           Programas, páginas y testimonios en formato ES
 │   ├── hooks/                 useReveal y useToast
 │   ├── App.jsx                Composición de la home React
-│   └── main.jsx               Montaje de React y CSS compartido
+│   └── main.jsx               Montaje de React (CSS compartido vía react.html)
 ├── tests/
 │   └── prueba_formularios_n2.cjs
 ├── docs/evidencias/           Capturas y salida de pruebas
@@ -64,9 +65,11 @@ TUPLUSEDUCA/
 └── .gitignore
 ```
 
+Vite sirve el contenido de `public/` desde `/` (`/js/...`, `/css/...`, `/assets/...` y `/pages/...`), por lo que todas las referencias internas son absolutas y funcionan igual en `npm run dev`, en `vite preview` y en Vercel.
+
 ## Vista React y componentes
 
-La home también está disponible como aplicación React en [`react.html`](react.html). No reemplaza al sitio estático: `index.html` y `pages/` siguen publicándose tal cual desde la raíz para GitHub Pages. La vista React sirve como catálogo vivo de componentes y reutiliza los mismos estilos del sitio (`css/base.css`, `componentes.css`, `paginas.css`, `animaciones.css`, `nuevo.css` y `responsive.css`), por lo que el diseño es idéntico.
+La home también está disponible como aplicación React en [`react.html`](react.html). No reemplaza al sitio estático: `index.html` y `public/pages/` se publican tal cual desde la raíz y Vercel sirve todo el contenido de `public/` en `/`. La vista React sirve como catálogo vivo de componentes y reutiliza los mismos estilos del sitio (`/css/base.css`, `componentes.css`, `paginas.css`, `animaciones.css`, `nuevo.css` y `responsive.css`), por lo que el diseño es idéntico.
 
 ### Componentes
 
@@ -84,7 +87,7 @@ La home también está disponible como aplicación React en [`react.html`](react
 | `Footer` | Pie compartido con navegación y boletín validado. |
 | `FloatingActions` y `Toast` | WhatsApp, volver arriba y avisos flotantes. |
 
-Los datos de la vista React viven en `src/data/site.js`. Si cambias un programa, un precio o un testimonio, actualiza también `js/datos.js` para mantener ambas versiones sincronizadas.
+Los datos de la vista React viven en `src/data/site.js`. Si cambias un programa, un precio o un testimonio, actualiza también `public/js/datos.js` para mantener ambas versiones sincronizadas.
 
 ### Ejecución de la vista React
 
@@ -93,9 +96,9 @@ npm install
 npm run dev
 ```
 
-Abre la URL que muestra Vite y añade `/react.html` (por ejemplo, `http://localhost:5173/react.html`). `npm run build` genera `dist/` con la vista React, las imágenes y las páginas internas copiadas, listo para desplegar; el sitio también se sigue abriendo directamente desde `index.html` sin compilación.
+Abre la URL que muestra Vite y añade `/react.html` (por ejemplo, `http://localhost:5173/react.html`). `npm run build` genera `dist/` con la vista React y copia automáticamente `public/` (imágenes, estilos, scripts y páginas internas), listo para desplegar en Vercel. Como todas las rutas son absolutas desde la raíz, el sitio debe servirse con Vite o cualquier servidor HTTP, no abriendo `index.html` con `file://`.
 
-`npm run lint` revisa la app React (`src/`). Los scripts clásicos de `js/` y las pruebas de `tests/` quedan fuera del lint porque usan globals propios (`TP`, `$`, `esc`, etc.) y se validan con sus pruebas de Node.
+`npm run lint` revisa la app React (`src/`). Los scripts clásicos de `public/js/` y las pruebas de `tests/` quedan fuera del lint porque usan globals propios (`TP`, `$`, `esc`, etc.) y se validan con sus pruebas de Node.
 
 ## Diagrama de flujo
 
@@ -177,7 +180,7 @@ El código de solicitud (`CON-AAAA-...` para consultas) se genera con `crypto.ge
 
 ## Variables de entorno
 
-Este proyecto es estático y **no lee archivos `.env` en tiempo de ejecución**. La configuración efectiva del formulario vive en [`js/formularios-config.js`](js/formularios-config.js). La plantilla [`.env.example`](.env.example) existe como referencia para scripts de despliegue o automatización y no contiene secretos.
+Este proyecto es estático y **no lee archivos `.env` en tiempo de ejecución**. La configuración efectiva del formulario vive en [`public/js/formularios-config.js`](public/js/formularios-config.js). La plantilla [`.env.example`](.env.example) existe como referencia para scripts de despliegue o automatización y no contiene secretos.
 
 | Variable | Ejemplo | Uso |
 | --- | --- | --- |
@@ -199,7 +202,7 @@ Reglas:
 
 1. Crea el formulario en [Formspree](https://formspree.io/).
 2. Copia la URL, con el formato `https://formspree.io/f/<identificador>`.
-3. Edita [`js/formularios-config.js`](js/formularios-config.js):
+3. Edita [`public/js/formularios-config.js`](public/js/formularios-config.js):
 
 ```js
 window.TP_FORMULARIOS_CONFIG = Object.freeze({
@@ -214,15 +217,15 @@ El código solo acepta URLs con ese formato exacto; si falta o es inválida, mue
 
 ### 2. Datos de contacto visibles
 
-Reemplaza los datos de ejemplo en [`pages/contacto.html`](pages/contacto.html):
+Reemplaza los datos de ejemplo en [`public/pages/contacto.html`](public/pages/contacto.html):
 
 - Correo `hola@tupluseduca.com`.
-- WhatsApp `+51 999 999 999` (también en [`js/layout.js`](js/layout.js), enlace flotante).
+- WhatsApp `+51 999 999 999` (también en [`public/js/layout.js`](public/js/layout.js), enlace flotante).
 - Horario de atención.
 
 ### 3. Fecha de la próxima cohorte
 
-La cuenta regresiva se configura en [`js/inicio.js`](js/inicio.js):
+La cuenta regresiva se configura en [`public/js/inicio.js`](public/js/inicio.js):
 
 ```js
 const INICIO = new Date("2026-12-01T09:00:00");
@@ -230,7 +233,7 @@ const INICIO = new Date("2026-12-01T09:00:00");
 
 ### 4. Catálogo y fichas de programas
 
-Los programas, precios, módulos, docentes y reseñas se editan en [`js/datos.js`](js/datos.js). Las imágenes correspondientes están en `assets/`.
+Los programas, precios, módulos, docentes y reseñas se editan en [`public/js/datos.js`](public/js/datos.js). Las imágenes correspondientes están en `public/assets/`.
 
 ## Ejecución local
 
@@ -323,7 +326,7 @@ La salida completa de las 34 pruebas está en [`docs/evidencias/pruebas-formular
 
 | Síntoma | Causa probable | Acción |
 | --- | --- | --- |
-| El formulario muestra "no disponible" | Endpoint ausente o con formato distinto a `https://formspree.io/f/<id>` | Revisa `js/formularios-config.js` |
+| El formulario muestra "no disponible" | Endpoint ausente o con formato distinto a `https://formspree.io/f/<id>` | Revisa `public/js/formularios-config.js` |
 | "No disponible temporalmente" | Formspree devolvió 401, 403 o 404 | Verifica el identificador y los dominios permitidos |
 | "Hay demasiadas solicitudes" | Límite de Formspree (HTTP 429) | Espera o revisa el plan de Formspree |
 | "El servicio rechazó la solicitud" | Datos rechazados (HTTP 400 o 422) | Revisa los campos y la configuración del formulario |
@@ -342,12 +345,13 @@ git commit -m "Formulario de contacto con envío real, documentación y evidenci
 git push origin HEAD
 ```
 
-Para publicar con GitHub Pages:
+Para publicar en Vercel:
 
-1. Entra en **Settings > Pages**.
-2. En **Build and deployment**, elige **Deploy from a branch**.
-3. Selecciona la rama que publicas y la carpeta `/ (root)`.
-4. Abre la URL `https://<usuario>.github.io/<repositorio>/`.
-5. Agrega ese dominio a los dominios permitidos del formulario en Formspree.
+1. Importa el repositorio en Vercel y selecciona el preset **Vite**.
+2. Usa `npm run build` como comando de build y `dist` como directorio de salida.
+3. Despliega. Vercel sirve `dist/index.html` en `/` y todo el contenido de `public/` desde la raíz (`/js/...`, `/css/...`, `/assets/...`, `/pages/...`).
+4. Agrega el dominio de producción a los dominios permitidos del formulario en Formspree.
+
+> Las rutas son absolutas desde la raíz, así que GitHub Pages en una subruta (`/<repositorio>/`) no es compatible sin un dominio propio o un repositorio raíz.
 
 El [`.gitignore`](.gitignore) excluye `.env` y archivos temporales; solo se versiona `.env.example`.

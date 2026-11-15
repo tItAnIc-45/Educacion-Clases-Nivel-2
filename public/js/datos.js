@@ -192,15 +192,15 @@ TP.DET = {
 TP.det = id => TP.DET[id];
 TP.horas = c => TP.DET[c.id].mod.reduce((a, m) => a + m[1], 0);
 TP.estrellas = r => "★".repeat(Math.round(r)) + "☆".repeat(5 - Math.round(r));
-TP.url = id => (document.body.dataset.raiz || "") + "pages/curso.html?id=" + id;
+TP.url = id => ruta("pages/curso.html") + "?id=" + id;
 
 TP.tarjeta = (c, fav) => {
-  const raiz = document.body.dataset.raiz || "", d = TP.DET[c.id];
+  const d = TP.DET[c.id];
   return `
   <article class="curso" data-cat="${c.cat}" data-id="${c.id}">
     ${fav ? `<button class="fav" data-fav="${c.id}" aria-pressed="false" aria-label="Guardar ${c.t} en favoritos">♡</button>` : ""}
     <div class="curso-cabecera" style="background:linear-gradient(135deg,${c.g[0]},${c.g[1]})">
-      <img src="${raiz}${c.imagen}" alt="${esc(c.t)}" class="curso-img" loading="lazy" width="640" height="360" />
+      <img src="${ruta(c.imagen)}" alt="${esc(c.t)}" class="curso-img" loading="lazy" width="640" height="360" />
       ${c.etiqueta ? `<span class="badge badge-${sin(c.etiqueta)}">${c.etiqueta}</span>` : ""}
     </div>
     <div class="curso-cont"><small>${c.cat}</small><h3>${c.t}</h3><p>${c.d}</p>

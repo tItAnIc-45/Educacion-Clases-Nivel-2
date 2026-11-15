@@ -3,7 +3,7 @@
 (function () {
   const id = params.get("id"), c = TP.curso(id), main = $("#ficha");
   if (!c) {
-    main.innerHTML = `<section class="perdido"><div><h1>No encontramos ese programa</h1><p>El enlace puede estar incompleto. Elige uno de la lista.</p><a class="boton" href="programas.html">Ver todos los programas</a></div></section>`;
+    main.innerHTML = `<section class="perdido"><div><h1>No encontramos ese programa</h1><p>El enlace puede estar incompleto. Elige uno de la lista.</p><a class="boton" href="${ruta("pages/programas.html")}">Ver todos los programas</a></div></section>`;
     return;
   }
   const d = TP.DET[id];
@@ -53,7 +53,7 @@
   main.innerHTML = `
   <div class="ficha-grid">
     <div class="ficha-texto">
-        <p class="migas"><a href="../index.html">Inicio</a> / <a href="programas.html">Programas</a> / ${esc(c.t)}</p>
+        <p class="migas"><a href="${ruta("index.html")}">Inicio</a> / <a href="${ruta("pages/programas.html")}">Programas</a> / ${esc(c.t)}</p>
         <p class="ficha-cat">${c.cat}${c.etiqueta ? ` <span class="badge-i badge-${sin(c.etiqueta)}">${c.etiqueta}</span>` : ""}</p>
         <h1>${esc(c.t)}</h1>
         <p class="lead">${esc(c.d)}</p>
@@ -64,12 +64,12 @@
         <p class="ficha-docs">Docentes: ${d.doc.map(x => `<a href="#docentes">${esc(x.n)}</a>`).join(" y ")}</p>
     </div>
       <aside class="inscripcion" aria-label="Inscripción">
-        <div class="insc-img" style="background:linear-gradient(135deg,${c.g[0]},${c.g[1]})"><img src="../${c.imagen}" alt="${esc(c.t)}"></div>
+        <div class="insc-img" style="background:linear-gradient(135deg,${c.g[0]},${c.g[1]})"><img src="${ruta(c.imagen)}" alt="${esc(c.t)}"></div>
         <div class="insc-cuerpo">
           <p class="precio">${TP.soles(c.p)}<small> pago único</small></p>
           <label class="cuotas">Pagar en <select id="c-cuotas" aria-label="Número de cuotas"><option value="1">1 pago</option><option value="3">3 cuotas</option><option value="6">6 cuotas</option></select><strong id="c-cuota">${cuotaTxt(1)}</strong></label>
-          <a class="boton" id="c-ins" href="contacto.html?programa=${c.id}">Inscribirme</a>
-          <a class="boton sec" id="c-plan" href="planificador.html?programa=${c.id}">Planificar mi estudio</a>
+          <a class="boton" id="c-ins" href="${ruta("pages/contacto.html")}?programa=${c.id}">Inscribirme</a>
+          <a class="boton sec" id="c-plan" href="${ruta("pages/planificador.html")}?programa=${c.id}">Planificar mi estudio</a>
           <div class="insc-acc"><button type="button" class="enlace-btn" id="c-fav" aria-pressed="${favs.has(id)}">${favs.has(id) ? "♥ Guardado" : "♡ Guardar"}</button><button type="button" class="enlace-btn" id="c-comp">Compartir</button></div>
           <ul class="incluye"><li>${totalH} horas de clases y práctica</li><li>${d.mod.length} módulos con proyecto final</li><li>Feedback de tus docentes</li><li>Certificado digital al terminar</li></ul>
         </div>
@@ -142,7 +142,7 @@
   </div>
   </div>
 
-  <div class="barra-insc" id="barra-insc"><div><b>${esc(c.t)}</b><small>${TP.soles(c.p)}</small></div><a class="boton" href="contacto.html?programa=${c.id}">Inscribirme</a></div>`;
+  <div class="barra-insc" id="barra-insc"><div><b>${esc(c.t)}</b><small>${TP.soles(c.p)}</small></div><a class="boton" href="${ruta("pages/contacto.html")}?programa=${c.id}">Inscribirme</a></div>`;
 
   pintarComentarios(0);
   let filtro = 0;

@@ -7,18 +7,15 @@ import { defineConfig } from 'vite'
 
 const raiz = fileURLToPath(new URL('.', import.meta.url))
 
-/* Copia el sitio estático dentro de dist para que la vista React conserve
-   imágenes, páginas internas y sus scripts al desplegar el resultado. */
+/* public/ se copia automáticamente a dist/ (assets, css, js y pages).
+   Aquí solo se añaden las páginas HTML de entrada que Vite no procesa
+   porque el único input del build es react.html. */
 const copiarSitio = () => ({
   name: 'copiar-sitio-estatico',
   apply: 'build',
   closeBundle() {
     const destino = resolve(raiz, 'dist')
     const piezas = [
-      'assets',
-      'css',
-      'js',
-      'pages',
       'index.html',
       '404.html',
     ]
